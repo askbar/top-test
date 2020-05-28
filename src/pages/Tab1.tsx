@@ -54,7 +54,7 @@ const Tab1: React.FC = () => {
             <IonTitle size="large">Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <CalendarTimeSlot slots={slots} />
+        {/* <CalendarTimeSlot slots={slots} /> */}
       </IonContent>
     </IonPage>
   );

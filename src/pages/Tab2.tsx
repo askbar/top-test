@@ -1,9 +1,26 @@
-import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Tab2.css';
+import React, { useEffect } from "react";
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
+import "./Tab2.css";
 
 const Tab2: React.FC = () => {
+  const appJS =
+    "https://www.topdanmark.dk/hybridapps/onsa-content/20200526T091901H69c22c6/static/js/index.js";
+  const appSnip =
+    '<onsa-content data-basename="/forsikringer/indboforsikring-koeb/"></onsa-content>';
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = appJS;
+    script.async = true;
+    document.body.appendChild(script);
+  });
+
   return (
     <IonPage>
       <IonHeader>
@@ -17,7 +34,7 @@ const Tab2: React.FC = () => {
             <IonTitle size="large">Tab 2</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Tab 2 page" />
+        <div dangerouslySetInnerHTML={{ __html: appSnip }} />
       </IonContent>
     </IonPage>
   );
