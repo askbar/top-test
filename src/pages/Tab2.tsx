@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useScript from "../components/useScript";
 import {
   IonContent,
@@ -10,11 +10,10 @@ import {
 import "./Tab2.css";
 
 const Tab2: React.FC = () => {
-  const appJS =
-    "https://www.topdanmark.dk/hybridapps/get-quote-app/20200506T084812H69afff0/static/js/index.js";
+  // let [appJS, setAppJS] = useState("");
 
   const scriptDone = () => {
-    console.log("script loaded");
+    console.log("app loaded");
     const apiAwsBase = "https://api.webplatform-prod-01.topdanmark.cloud";
     const wso2host = "wso2prod.topdanmark.local";
     const appId = "get-quote-app";
@@ -69,12 +68,19 @@ const Tab2: React.FC = () => {
       document.getElementById("get-quote-app")
     );
   };
-
   const scriptError = (error: Error) => {
     console.error(error);
   };
-
-  useScript(appJS, scriptDone, scriptError);
+  useScript(
+    "https://cdn.topdanmark.dk/flos-webcomponents/latest/build/flos-webcomponents.js",
+    () => console.log("flos loaded"),
+    scriptError
+  );
+  useScript(
+    "https://www.topdanmark.dk/hybridapps/get-quote-app/20200506T084812H69afff0/static/js/index.js",
+    scriptDone,
+    scriptError
+  );
 
   return (
     <IonPage>
@@ -89,6 +95,15 @@ const Tab2: React.FC = () => {
             <IonTitle size="large">Tab 2</IonTitle>
           </IonToolbar>
         </IonHeader>
+
+        <link
+          rel="stylesheet"
+          href="https://cdn.topdanmark.dk/flos-core/latest/css/flos-core.css"
+        />
+        <div
+          className="inline-svg hidden"
+          data-src="https://cdn.topdanmark.dk/latest/images/Svg/product-icons.svg"
+        ></div>
         <div id="get-quote-app" />
       </IonContent>
     </IonPage>
