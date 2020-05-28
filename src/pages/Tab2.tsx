@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
+import useScript from "../components/useScript";
 import {
   IonContent,
   IonHeader,
@@ -10,16 +11,70 @@ import "./Tab2.css";
 
 const Tab2: React.FC = () => {
   const appJS =
-    "https://www.topdanmark.dk/hybridapps/onsa-content/20200526T091901H69c22c6/static/js/index.js";
-  const appSnip =
-    '<onsa-content data-basename="/forsikringer/indboforsikring-koeb/"></onsa-content>';
+    "https://www.topdanmark.dk/hybridapps/get-quote-app/20200506T084812H69afff0/static/js/index.js";
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = appJS;
-    script.async = true;
-    document.body.appendChild(script);
-  });
+  const scriptDone = () => {
+    console.log("script loaded");
+    const apiAwsBase = "https://api.webplatform-prod-01.topdanmark.cloud";
+    const wso2host = "wso2prod.topdanmark.local";
+    const appId = "get-quote-app";
+    const logger = "https://api.webplatform-prod-01.topdanmark.cloud/log";
+    new GetQuote(
+      {
+        appId: appId,
+        flow: "GET_QUOTE",
+        endpoints: {
+          resources:
+            "https://www.topdanmark.dk/rest/resourcebundle/dk.getquote",
+          submit: {
+            method: "POST",
+            url: apiAwsBase + "/insurance-service/send-mail",
+            headers: {
+              "X-top-brand": "TD",
+              "X-top-dscm": "",
+              "Content-Type": "application/json",
+            },
+          },
+          receipt: {
+            method: "POST",
+            url: apiAwsBase + "/objects",
+          },
+          openTimes: {
+            method: "POST",
+            url: apiAwsBase + "/ragnarok-call-me-api/timings",
+            headers: {
+              "x-top-appname": appId,
+              "x-top-category": "open-times",
+              "x-top-host": wso2host,
+            },
+            body: {
+              subject: null,
+            },
+          },
+          submitGenesys: {
+            method: "POST",
+            url: apiAwsBase + "/ragnarok-call-me-api/submit",
+            headers: {
+              "x-top-appname": appId,
+              "x-top-category": "submit-genesys",
+              "x-top-host": wso2host,
+            },
+          },
+          log: logger,
+        },
+        logLevel: "debug",
+        defaultCategory: "LOCAL_DEV",
+        trackingHandler: null, //topContext.trackingHandlerFactory(appId),
+      },
+      document.getElementById("get-quote-app")
+    );
+  };
+
+  const scriptError = (error: Error) => {
+    console.error(error);
+  };
+
+  useScript(appJS, scriptDone, scriptError);
 
   return (
     <IonPage>
@@ -34,7 +89,7 @@ const Tab2: React.FC = () => {
             <IonTitle size="large">Tab 2</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <div dangerouslySetInnerHTML={{ __html: appSnip }} />
+        <div id="get-quote-app" />
       </IonContent>
     </IonPage>
   );
