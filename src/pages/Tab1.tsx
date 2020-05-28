@@ -6,9 +6,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-// import ExploreContainer from "../components/ExploreContainer";
 import "../types.d.ts";
-import CalendarTimeSlot from "calendar-time-slot";
 import "./Tab1.css";
 
 const Tab1: React.FC = () => {
