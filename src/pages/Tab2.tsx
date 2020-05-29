@@ -71,9 +71,12 @@ const Tab2: React.FC = () => {
   };
 
   useScript(
-    "https://flos.webplatform-prod-01.topdanmark.cloud/core/20200226T090223H49dd678/js/vendor/jquery-3.4.1.min.js"
+    "https://code.jquery.com/jquery-3.4.1.min.js",
+    null,
+    null,
+    "sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=",
+    true
   );
-
   useScript(
     "https://flos.webplatform-prod-01.topdanmark.cloud/core/20200226T090223H49dd678/js/flos-core.js"
   );
