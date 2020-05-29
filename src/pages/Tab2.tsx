@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import useScript from "../components/useScript";
 import {
   IonContent,
@@ -12,7 +12,8 @@ import "./Tab2.css";
 const Tab2: React.FC = () => {
   // let [appJS, setAppJS] = useState("");
 
-  const scriptDone = () => {
+  const pushEvent = () => {};
+  const scriptDoneApp = () => {
     console.log("app loaded");
     const apiAwsBase = "https://api.webplatform-prod-01.topdanmark.cloud";
     const wso2host = "wso2prod.topdanmark.local";
@@ -63,23 +64,33 @@ const Tab2: React.FC = () => {
         },
         logLevel: "debug",
         defaultCategory: "LOCAL_DEV",
-        trackingHandler: null, //topContext.trackingHandlerFactory(appId),
+        trackingHandler: { pushEvent }, //topContext.trackingHandlerFactory(appId),
       },
       document.getElementById("get-quote-app")
     );
   };
-  const scriptError = (error: Error) => {
-    console.error(error);
-  };
+
   useScript(
-    "https://cdn.topdanmark.dk/flos-webcomponents/latest/build/flos-webcomponents.js",
-    () => console.log("flos loaded"),
-    scriptError
+    "https://flos.webplatform-prod-01.topdanmark.cloud/core/20200226T090223H49dd678/js/vendor/jquery-3.4.1.min.js"
+  );
+
+  useScript(
+    "https://flos.webplatform-prod-01.topdanmark.cloud/core/20200226T090223H49dd678/js/flos-core.js"
   );
   useScript(
+    "https://flos.webplatform-prod-01.topdanmark.cloud/web-components/1.1.12/build/flos-webcomponents.js"
+  );
+  useScript(
+    "https://flos.webplatform-prod-01.topdanmark.cloud/core/20200226T090223H49dd678/js/vendor/bootstrap.min.js"
+  );
+  useScript(
+    "https://flos.webplatform-prod-01.topdanmark.cloud/web-components/1.1.12/build/flos-webcomponents.esm.js"
+  );
+  //  useScript("https://cdn.topdanmark.dk/latest/js/tds-global.bundle.js");
+
+  useScript(
     "https://www.topdanmark.dk/hybridapps/get-quote-app/20200506T084812H69afff0/static/js/index.js",
-    scriptDone,
-    scriptError
+    scriptDoneApp
   );
 
   return (
@@ -98,7 +109,7 @@ const Tab2: React.FC = () => {
 
         <link
           rel="stylesheet"
-          href="https://cdn.topdanmark.dk/flos-core/latest/css/flos-core.css"
+          href="https://flos.webplatform-prod-01.topdanmark.cloud/core/latest/css/flos-core.css"
         />
         <div
           className="inline-svg hidden"
